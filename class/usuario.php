@@ -2,20 +2,20 @@
 
 class Usuario {
 
-    private $idusuarios;
+    private $idusuario;
     private $deslogin;
     private $dessenha;
     private $dtcadastro;
 
-    public function getIdusuarios(){
+    public function getIdusuario(){
 
-        return $this->idusuarios;
+        return $this->idusuario;
 
     }
 
     public function setIdusuario($value){
 
-        $this->idusuarios = $value;
+        $this->idusuario = $value;
 
     }
 
@@ -59,7 +59,7 @@ class Usuario {
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(
+        $results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuarios = :ID", array(
 
             ":ID"=>$id
 
@@ -118,7 +118,7 @@ class Usuario {
 
     public function setData($data){
 
-        $this->setIdusuario($data['idusuario']);
+        $this->setIdusuario($data['idusuarios']);
         $this->setDeslogin($data['deslogin']);
         $this->setDessenha($data['dessenha']);
         $this->setDtcadastro(new DateTime($data['dtcadastro']));
@@ -144,6 +144,23 @@ class Usuario {
 
     }
 
+    public function update($login, $password){
+
+        $this->setDeslogin($login);
+        $this->setDessenha($password);
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuarios = :ID", array(
+
+            ':LOGIN'=>$this->getDeslogin(),
+            ':PASSWORD'=>$this->getDessenha(),
+            ':ID'=>$this->getIdusuario()
+
+        ));
+
+    }
+
     public function __construct($login = "", $password = ""){
 
         $this->setDeslogin($login);
@@ -155,7 +172,7 @@ class Usuario {
 
         return json_encode(array(
 
-            "idusuario"=>$this->getIdusuarios(),
+            "idusuario"=>$this->getIdusuario(),
             "deslogin"=>$this->getDeslogin(),
             "dessenha"=>$this->getDessenha(),
             "dtcadastro"=>$this->getDtcadastro()->format("d/m/Y H:i:s")

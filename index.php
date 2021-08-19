@@ -25,11 +25,20 @@ require_once("config.php");
 //$usuario->login("moraeslitz","uyhbdwe");
 
 //echo $usuario;
+// Insert novo usuario, não funcionou!
+//$aluno = new Usuario("aluno", "@lun0");
 
-$aluno = new Usuario("aluno", "@lun0");
+//$aluno->insert();
 
-$aluno->insert();
+//echo $aluno;
 
-echo $aluno;
+
+$usuario = new Usuario();
+
+$usuario->loadById(35);
+
+$usuario->update("professor", "&%#%¨&$");
+
+echo $usuario;
 
 ?>
